@@ -65,7 +65,7 @@ test_cases = [
 ]
 for problem, tensor in test_cases:
     formname = problem.__name__
-    if problem == form.curl_curl:
+    if args.mode == "spectral" and problem == form.curl_curl:
         degrees = list(range(1, 12))
     elif tensor:
         degrees = cube_range
