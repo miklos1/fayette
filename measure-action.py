@@ -53,7 +53,7 @@ test_cases = [
     (form.mass_gll, True, 2),
     (form.poisson_gll, True, 1),
     (form.hyperelasticity, True, 0.1),
-    (form.curl_curl, True, 0.1),
+    (form.curl_curl, True, 0.075),
 ]
 
 
@@ -61,7 +61,7 @@ def run(problem, tensor, size_factor, degree):
     formname = problem.__name__
     cellname = 'cube' if tensor else 'simplex'
     PETSc.Sys.Print("%s: %s, degree=%d" % (formname, cellname, degree))
-    num_cells = COMM_WORLD.size * max(1, 1e7 * size_factor / (degree + 1)**{'spectral': 4, 'coffee': 6}[args.mode])
+    num_cells = COMM_WORLD.size * max(1, 1e7 * size_factor / (degree + 1)**{'spectral': 4, 'coffee': 5}[args.mode])
     h = int(floor(cbrt(num_cells / COMM_WORLD.size)))
     w = int(floor(sqrt(num_cells / h)))
     d = int(round(num_cells / (w * h)))
