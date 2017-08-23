@@ -48,34 +48,24 @@ matmult_event = PETSc.Log.Event("MatMult")
 
 
 simplex_range = list(range(1, 5))
-if args.mode == "coffee":
-    cube_range = list(range(1, 10))
-elif args.mode == "spectral":
-    cube_range = list(range(1, 16))
+cube_range = list(range(1, 8))
 
 
 test_cases = [
-    (form.stokes_momentum, False),
-    (form.elasticity, False),
-    (form.poisson, True),
-    (form.mass_gll, True),
-    (form.poisson_gll, True),
-    (form.hyperelasticity, True),
-    (form.curl_curl, True),
+    (form.stokes_momentum, False, 0.5),
+    (form.elasticity, False, 0.1),
+    (form.poisson, True, 1),
+    (form.mass_gll, True, 2),
+    (form.poisson_gll, True, 1),
+    (form.hyperelasticity, True, 0.1),
+    (form.curl_curl, True, 0.1),
 ]
-for problem, tensor in test_cases:
+for problem, tensor, size_factor in test_cases:
     formname = problem.__name__
-    if args.mode == "spectral" and problem == form.curl_curl:
-        degrees = list(range(1, 12))
-    elif tensor:
-        degrees = cube_range
-    else:
-        degrees = simplex_range
-    for degree in degrees:
+    for degree in (cube_range if tensor else simplex_range):
         cellname = 'cube' if tensor else 'simplex'
         PETSc.Sys.Print("%s: %s, degree=%d" % (formname, cellname, degree))
-        num_cells = COMM_WORLD.size * max(1e5 / degree**4, 1e8 / (degree + 1)**9)
-        num_cells = max(COMM_WORLD.size, min((1 << 27) / (degree + 1)**6, num_cells))
+        num_cells = COMM_WORLD.size * max(1, 1e8 * size_factor / (degree + 1)**7)
         h = int(floor(cbrt(num_cells / COMM_WORLD.size)))
         w = int(floor(sqrt(num_cells / h)))
         d = int(round(num_cells / (w * h)))
