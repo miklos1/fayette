@@ -11,7 +11,7 @@ from numpy import cbrt, floor, sqrt
 from mpi4py import MPI
 
 from firedrake.petsc import PETSc
-from firedrake import COMM_WORLD, ExtrudedMesh, UnitSquareMesh, assemble
+from firedrake import COMM_WORLD, ExtrudedMesh, UnitCubeMesh, UnitSquareMesh, assemble
 
 import form
 
@@ -69,7 +69,10 @@ def run(problem, tensor, size_factor, degree):
     d = int(round(num_cells / (w * h)))
     num_cells = w * d * h
 
-    mesh = ExtrudedMesh(UnitSquareMesh(w, d, quadrilateral=tensor), h)
+    if tensor:
+        mesh = ExtrudedMesh(UnitSquareMesh(w, d, quadrilateral=True), h)
+    else:
+        mesh = UnitCubeMesh(w, d, h)
     comm = mesh.comm
     J = problem(mesh, int(degree))
 
