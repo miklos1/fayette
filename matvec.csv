@@ -184,3 +184,17 @@ cube,12,0.021898651619752248,20,38857,12,poisson_gll,coffee
 cube,13,0.01781572252511978,12,29680,12,poisson_gll,coffee
 cube,14,0.02659959445397059,12,36765,12,poisson_gll,coffee
 cube,15,0.0393788143992424,12,44896,12,poisson_gll,coffee
+cube,8,0.03021397590637207,25,45387,12,hyperelasticity,spectral
+cube,9,0.02338323990503947,12,31080,12,hyperelasticity,spectral
+cube,10,0.0411297952135404,12,41943,12,hyperelasticity,spectral
+cube,11,0.06861629535754522,12,55080,12,hyperelasticity,spectral
+cube,12,0.10972423205773035,12,70707,12,hyperelasticity,spectral
+cube,13,0.17002514650424322,12,89040,12,hyperelasticity,spectral
+cube,14,0.2635417019327482,12,110295,12,hyperelasticity,spectral
+cube,8,0.029716518024603525,25,45387,12,hyperelasticity,spectral
+cube,9,0.02355965922276179,12,31080,12,hyperelasticity,spectral
+cube,10,0.041020677983760835,12,41943,12,hyperelasticity,spectral
+cube,11,0.06811434676249822,12,55080,12,hyperelasticity,spectral
+cube,12,0.10902831753094991,12,70707,12,hyperelasticity,spectral
+cube,13,0.16874044736226398,12,89040,12,hyperelasticity,spectral
+cube,14,0.26115115731954575,12,110295,12,hyperelasticity,spectral
