@@ -53,7 +53,7 @@ test_cases = [
     (form.mass_gll, True, 2),
     (form.poisson_gll, True, 1),
     (form.hyperelasticity, True, 0.1),
-    (form.curl_curl, True, 0.075),
+    (form.curl_curl, True, 0.3),
 ]
 
 
