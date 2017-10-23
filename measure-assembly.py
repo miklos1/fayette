@@ -44,7 +44,7 @@ assemble_event = PETSc.Log.Event("AssembleMat")
 matmult_event = PETSc.Log.Event("MatMult")
 
 
-simplex_range = list(range(1, 5))
+simplex_range = list(range(1, 8))
 cube_range = list(range(1, 8))
 
 
