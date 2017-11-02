@@ -63,7 +63,7 @@ def run(problem, tensor, size_factor, degree):
     formname = problem.__name__
     cellname = 'cube' if tensor else 'simplex'
     PETSc.Sys.Print("%s: %s, degree=%d" % (formname, cellname, degree))
-    num_cells = COMM_WORLD.size * max(1, 4e8 * size_factor / (degree + 1)**7)
+    num_cells = COMM_WORLD.size * max(1, 1e8 * size_factor / (degree + 1)**7)
     h = int(floor(cbrt(num_cells / COMM_WORLD.size)))
     w = int(floor(sqrt(num_cells / h)))
     d = int(round(num_cells / (w * h)))
