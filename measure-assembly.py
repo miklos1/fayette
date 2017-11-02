@@ -45,14 +45,14 @@ matmult_event = PETSc.Log.Event("MatMult")
 
 
 simplex_range = list(range(1, 8))
-cube_range = list(range(1, 8))
+cube_range = list(range(1, 13))
 
 
 test_cases = [
     (form.stokes_momentum, False, 0.5),
-    (form.elasticity, False, 0.1),
+    # (form.elasticity, False, 0.1),
     (form.poisson, True, 1),
-    (form.mass_gll, True, 2),
+    # (form.mass_gll, True, 2),
     (form.poisson_gll, True, 1),
     (form.hyperelasticity, True, 0.1),
     (form.curl_curl, True, 0.1),
@@ -63,7 +63,7 @@ def run(problem, tensor, size_factor, degree):
     formname = problem.__name__
     cellname = 'cube' if tensor else 'simplex'
     PETSc.Sys.Print("%s: %s, degree=%d" % (formname, cellname, degree))
-    num_cells = COMM_WORLD.size * max(1, 1e8 * size_factor / (degree + 1)**7)
+    num_cells = COMM_WORLD.size * max(1, 4e8 * size_factor / (degree + 1)**7)
     h = int(floor(cbrt(num_cells / COMM_WORLD.size)))
     w = int(floor(sqrt(num_cells / h)))
     d = int(round(num_cells / (w * h)))

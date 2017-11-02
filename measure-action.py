@@ -47,11 +47,11 @@ cube_range = list(range(1, 16))
 
 
 test_cases = [
-    (form.stokes_momentum, False, 0.5),
-    (form.elasticity, False, 0.1),
+    # (form.stokes_momentum, False, 0.5),
+    # (form.elasticity, False, 0.1),
     (form.poisson, True, 1),
-    (form.mass_gll, True, 2),
-    (form.poisson_gll, True, 1),
+    # (form.mass_gll, True, 2),
+    # (form.poisson_gll, True, 1),
     (form.hyperelasticity, True, 0.1),
     (form.curl_curl, True, 0.3),
 ]
@@ -61,7 +61,7 @@ def run(problem, tensor, size_factor, degree):
     formname = problem.__name__
     cellname = 'cube' if tensor else 'simplex'
     PETSc.Sys.Print("%s: %s, degree=%d" % (formname, cellname, degree))
-    num_cells = COMM_WORLD.size * max(1, 1e7 * size_factor / (degree + 1)**{'spectral': 4, 'coffee': 5}[args.mode])
+    num_cells = COMM_WORLD.size * max(1, 4e7 * size_factor / (degree + 1)**{'spectral': 4, 'coffee': 5}[args.mode])
     h = int(floor(cbrt(num_cells / COMM_WORLD.size)))
     w = int(floor(sqrt(num_cells / h)))
     d = int(round(num_cells / (w * h)))
