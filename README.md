@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/100367823.svg)](https://zenodo.org/badge/latestdoi/100367823)
+
 #### Experimentation framework for the manuscript:
 
 > Miklós Homolya, Robert C. Kirby, and David A. Ham. "Exposing and
