@@ -4,7 +4,7 @@ import numpy
 import pandas
 
 assembly = pandas.read_csv("assembly.csv")
-assembly["rate"] = assembly.num_dofs / assembly.assemble_time
+assembly["rate"] = assembly.num_dofs / assembly.parloop_time
 
 matvec = pandas.read_csv("matvec.csv")
 matvec["rate"] = matvec.num_dofs / matvec.matvec_time
