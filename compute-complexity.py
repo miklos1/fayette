@@ -81,11 +81,27 @@ def _expression_block(expr, temporaries, indices):
     raise AssertionError("cannot compute complexity polynomial for %s" % type(expr))
 
 
+class IndexDict(dict):
+    """Index dictionary which invents index names as they are required."""
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.count = 0
+
+    def __getitem__(self, key):
+        try:
+            return super().__getitem__(key)
+        except KeyError:
+            self[key] = sympy.symbols("i%d" % self.count)
+            self.count += 1
+            return self[key]
+
+
+
 def complexity(form, parameters):
     impero_kernel, index_names = tsfc.driver.compile_form(form, parameters=parameters)[0]
     c_kernel = tsfc.driver.compile_form(form, parameters=firedrake.parameters['form_compiler'])[0]
 
-    indices={idx: sympy.symbols(name) for idx, name in index_names}
+    indices = IndexDict({idx: sympy.symbols(name) for idx, name in index_names})
 
     return expression(impero_kernel.tree, impero_kernel.temporaries, indices, top=True)
 
