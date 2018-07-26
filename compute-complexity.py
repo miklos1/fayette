@@ -97,27 +97,34 @@ class IndexDict(dict):
 
 
 
-def complexity(form, parameters):
+def complexity(form, parameters, action=False):
+    if action:
+        coef = firedrake.Function(form.arguments()[0].function_space())
+        form = firedrake.action(form, coef)
     impero_kernel, index_names = tsfc.driver.compile_form(form, parameters=parameters)[0]
-    c_kernel = tsfc.driver.compile_form(form, parameters=firedrake.parameters['form_compiler'])[0]
 
     indices = IndexDict({idx: sympy.symbols(name) for idx, name in index_names})
 
-    return expression(impero_kernel.tree, impero_kernel.temporaries, indices, top=True)
+    expr =  expression(impero_kernel.tree, impero_kernel.temporaries, indices, top=True)
+    p1 = sympy.symbols("p") + 1
+    '''Currently assume p+1 quad points in each direction.'''
+    return expr.subs([(i, p1) for i in indices.values()]).expand()
 
 
-m = UnitSquareMesh(2,2, quadrilateral=True)
+m = ExtrudedMesh(UnitSquareMesh(2, 2, quadrilateral=True), 2)
 
 mass = form.mass(m, 6)
-helmholtz = form.helmholtz(m, 6)
+poisson = form.poisson(m, 6)
 hyperelasticity = form.hyperelasticity(m, 6)
+curl_curl = form.curl_curl(m, 6)
 
 parameters = firedrake.parameters['form_compiler'].copy()
 parameters['return_impero'] = True
+parameters['mode'] = 'spectral'
 
-
-
-
-print(complexity(mass, parameters))
-print(complexity(helmholtz, parameters))
-print(complexity(hyperelasticity, parameters))
+for mode, action in (("assembly", False), ("action", True)):
+    print(mode)
+    print("  mass: ", complexity(mass, parameters, action))
+    print("  laplacian: ",complexity(poisson, parameters, action))
+    print("  hyperelasticity:", complexity(hyperelasticity, parameters, action))
+    print("  curl_curl:", complexity(curl_curl, parameters, action))
