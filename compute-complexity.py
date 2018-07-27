@@ -52,11 +52,6 @@ def _expression_block(expr, temporaries, indices):
     return reduce(lambda x, y: x+y, map(lambda e: expression(e, temporaries, indices), expr.children))
 
 
-@_expression.register(gem.IndexSum)
-def _expression_block(expr, temporaries, indices):
-    return reduce(lambda x, y: x*y, map(lambda i: indices[i], expr.multiindex)) * expression(expr.children[0], temporaries, indices) 
-
-
 @_expression.register(impero.Evaluate)
 def _expression_evaluate(expr, temporaries, indices):
     return expression(expr.expression, temporaries, indices, top=True)
@@ -70,7 +65,7 @@ def _expression_for(expr, temporaries, indices):
 @_expression.register(impero.Accumulate)
 @_expression.register(impero.ReturnAccumulate)
 def _expression_accumulate(expr, temporaries, indices):
-    return expression(expr.indexsum.children[0], temporaries, indices, top=True)
+    return expression(expr.indexsum.children[0], temporaries, indices)
 
 
 @_expression.register(gem.MathFunction)
